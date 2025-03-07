@@ -8,7 +8,7 @@ tags:
   - cryptography
 draft: false
 created: 2025-03-05, 05:32
-updated: 2025-03-05, 23:50
+updated: 2025-03-07, 14:56
 ---
 為了支援 zkSNARK 驗證，EVM 很早以前就以 precompiled contracts 支援 bn254，一條 pairing-friendly 的橢圓曲線。
 
@@ -29,7 +29,7 @@ $$
 
 ### ABI
 
-由於是以 contract interaction 的形式呼叫，所以 caldate 需要按照相應的格式排列好。`ecAdd` 需要從 calldata 解析出兩個在 $G_1$ 上的 Point，並按照 (x, y) 的順序排好：
+由於是以 contract interaction 的形式呼叫，所以 calldata 需要按照相應的格式排列好。`ecAdd` 需要從 calldata 解析出兩個在 $G_1$ 上的 Point，並按照 (x, y) 的順序排好：
 
 | Calldata Bytes Range   | Name |
 | ---------------------- | ---- |
@@ -230,10 +230,10 @@ $$
 
 ### ABI
 
-ecPairing 是一個 batch pairing 的實作，可以傳入多組的 $G_1$ 和 $G_2$ 的 Point Pair 一塊做 pairing，：
+ecPairing 是一個 pairing batch 的實作，可以傳入多組的 $G_1$ 和 $G_2$ 的 Point Pair 一塊做 pairing，：
 
 $$
-e(P_1,\ Q_1) \cdot e(P_2,\ Q_2) \cdot ... e(P_k,\ Q_k) \stackrel{?}{=} 1 \in G_T
+e(P_1,\ Q_1) \times e(P_2,\ Q_2) \times ... \times e(P_k,\ Q_k) \stackrel{?}{=} 1 \in G_T
 $$
 
 第一組 Point Pair 在 calldata region 的 layout 如下：
@@ -247,7 +247,7 @@ $$
 | `[128; 159]` (32 bytes) | y_c1 of Point in G_2 |
 | `[160; 191]` (32 bytes) | y_c0 of Point in G_2 |
 
-實際範例可以參考 [evm.codes](https://www.evm.codes/precompiled?fork=cancun#0x08)，而以 `@noble/curves` 撰寫的腳本如下：
+實際範例可以參考 [evm.codes](https://www.evm.codes/precompiled?fork=cancun#0x08)，但是測資包含 $G_1$ $G_2$ 的點所以難以理解。這邊以 `@noble/curves` 撰寫一些簡單的例子：
 
 ```js
 import { bn254 } from "@noble/curves/bn254";
