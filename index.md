@@ -2,10 +2,11 @@
 title: main
 description: ""
 permalink: ""
-tags: 
+tags:
+  - personal
 draft: false
 created: 2024-12-06, 21:16
-updated: 2024-12-12, 21:07
+updated: 2025-04-14, 15:38
 ---
 My name is wiasliaw. A blockchain engineer researching DeFi, ZKP, and more. Writing articles to leave a mark on the world.
 

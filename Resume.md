@@ -2,10 +2,11 @@
 title: Resume
 description: 
 permalink: 
-tags: 
+tags:
+  - personal
 draft: false
 created: 2024-12-12, 20:49
-updated: 2025-04-14, 15:25
+updated: 2025-04-14, 15:38
 ---
 ## Experience
 
