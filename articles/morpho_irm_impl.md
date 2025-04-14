@@ -1,15 +1,15 @@
 ---
 title: Morpho-Blue 利率模型實作
-description: 
+description: Morpho 是一個現代化的借貸協議，本文主要簡介 Morpho 核心中有關 Interest Rate Model 實作
 permalink: 
 tags:
   - defi/lending
   - protocol/morpho
 draft: false
 created: 2025-01-21, 16:14
-updated: 2025-01-22, 00:10
+updated: 2025-03-30, 18:59
 ---
-本文主要在解釋 Morpho Interest Rate Model實作，不做數學推導。
+本文主要在解釋 Morpho Interest Rate Model 實作，不做數學推導。
 
 ## Adaptive
 
@@ -85,7 +85,7 @@ int256 err = (utilization - ConstantsLib.TARGET_UTILIZATION)
 
 ### Linear Adaptation
 
-字面意義為調整量，根據 Err Factor、一個常數速率與經過的時間來決定需要調整多少：
+字面意義為調整量，根據 Err Factor 與經過的時間來決定需要調整多少：
 
 $$
 \begin{align*}

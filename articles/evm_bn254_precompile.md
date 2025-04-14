@@ -1,6 +1,6 @@
 ---
 title: evm bn254 precompile
-description: 
+description: 簡介 EVM BN254 precompile
 permalink: 
 tags:
   - eip
@@ -8,7 +8,7 @@ tags:
   - cryptography
 draft: false
 created: 2025-03-05, 05:32
-updated: 2025-03-07, 14:56
+updated: 2025-04-14, 15:28
 ---
 為了支援 zkSNARK 驗證，EVM 很早以前就以 precompiled contracts 支援 bn254，一條 pairing-friendly 的橢圓曲線。
 

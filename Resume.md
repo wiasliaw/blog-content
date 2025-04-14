@@ -5,7 +5,7 @@ permalink:
 tags: 
 draft: false
 created: 2024-12-12, 20:49
-updated: 2024-12-12, 21:02
+updated: 2025-04-14, 15:25
 ---
 ## Experience
 
@@ -15,9 +15,9 @@ updated: 2024-12-12, 21:02
 - Research in Upgradeable contracts, including Transparency Proxy, UUPS and Diamond Proxy.
 - Developing in ERC20 staking and ERC721 marketplace.
 
-### Anonymous Defi Protocol
-*Blockchain Developer (Remote, 2024/05 – present)*
-- Research in Lending, Dex, Auction protocol and etc.
+### Pencils Protocol
+*Blockchain Developer (Remote, 2024/05 – 2025/01)*
+- Research in Lending, DEX, Auction protocol and etc.
 - Design, develop, test, deploy and upgrade a protocol focused on leveraged yield farming.
 - Maintain security, including audit, for a protocol with over 100 million TVL.
 

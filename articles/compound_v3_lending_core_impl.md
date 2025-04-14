@@ -1,13 +1,13 @@
 ---
 title: Compound V3 借貸計息實作
-description: 
+description: 本文主要簡介 Compound V3 核心中有關計息實作
 permalink: 
 tags:
   - defi/lending
   - protocol/compound_v3
 draft: false
 created: 2024-12-19, 22:24
-updated: 2025-01-02, 11:28
+updated: 2025-04-14, 15:28
 ---
 Compound V3 是一個老牌的借貸協議，雖然因為 Solidity 的歷史因素使得其 codebase 不是適合 DeFi 開發者學習的典範，但是其借貸核心概念也是值得探討的一環。
 

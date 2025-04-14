@@ -1,13 +1,13 @@
 ---
 title: Compound V3 利率模型實作
-description: 
+description: 本文主要簡介 Compound V3 核心中有關 interest rate model 實作
 permalink: 
 tags:
   - defi/lending
   - protocol/compound_v3
 draft: false
 created: 2024-12-23, 00:58
-updated: 2025-01-02, 10:35
+updated: 2025-04-14, 15:28
 ---
 Compound V3 的利率模型是一個非常簡單的模型，可以以治理的方式更新模型的參數。具體怎麼運作，只需要明白模型的幾個術語和定義就幾乎能完全理解。
 
