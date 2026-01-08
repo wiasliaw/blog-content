@@ -1,0 +1,41 @@
+---
+import Head from '../components/Head.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <Head title={title} description={description} />
+  <body>
+    <header class="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+      <div class="max-w-[--width-page] mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold text-foreground hover:text-primary no-underline transition-colors">
+          SSG
+        </a>
+        <nav class="flex items-center gap-6">
+          <a href="/" class="text-muted font-medium hover:text-primary no-underline transition-colors">Home</a>
+          <a href="/graph" class="text-muted font-medium hover:text-primary no-underline transition-colors">Graph</a>
+          <ThemeToggle />
+        </nav>
+      </div>
+    </header>
+    
+    <main class="max-w-[--width-page] mx-auto px-6 py-12 min-h-[calc(100vh-200px)]">
+      <slot />
+    </main>
+    
+    <footer class="border-t border-border bg-secondary">
+      <div class="max-w-[--width-page] mx-auto px-6 py-6 text-center text-muted text-sm">
+        <p class="mb-0">Built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a></p>
+      </div>
+    </footer>
+  </body>
+</html>

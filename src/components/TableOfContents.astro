@@ -1,0 +1,68 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+// Filter only h2 and h3 headings
+const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+
+// Build nested structure
+interface TocItem {
+  heading: MarkdownHeading;
+  children: TocItem[];
+}
+
+const toc: TocItem[] = [];
+let currentH2: TocItem | null = null;
+
+for (const heading of filteredHeadings) {
+  if (heading.depth === 2) {
+    currentH2 = { heading, children: [] };
+    toc.push(currentH2);
+  } else if (heading.depth === 3 && currentH2) {
+    currentH2.children.push({ heading, children: [] });
+  } else if (heading.depth === 3) {
+    toc.push({ heading, children: [] });
+  }
+}
+---
+
+{toc.length > 0 && (
+  <nav class="bg-secondary border border-border rounded-lg p-4 mb-8">
+    <details open>
+      <summary class="font-semibold cursor-pointer select-none text-foreground py-1 hover:text-primary transition-colors">
+        Table of Contents
+      </summary>
+      <ul class="mt-4 mb-0 pl-4 list-none">
+        {toc.map((item) => (
+          <li class="mb-1">
+            <a 
+              href={`#${item.heading.slug}`} 
+              class="text-muted text-sm no-underline block py-1 transition-colors hover:text-primary"
+            >
+              {item.heading.text}
+            </a>
+            {item.children.length > 0 && (
+              <ul class="pl-4 mt-1 mb-0 list-none">
+                {item.children.map((child) => (
+                  <li class="mb-1">
+                    <a 
+                      href={`#${child.heading.slug}`} 
+                      class="text-muted text-xs no-underline block py-1 transition-colors hover:text-primary"
+                    >
+                      {child.heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </details>
+  </nav>
+)}

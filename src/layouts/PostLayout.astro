@@ -1,0 +1,57 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import TagList from '../components/TagList.astro';
+import LocalGraph from '../components/LocalGraph.astro';
+import { formatDate } from '../utils/date';
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  title: string;
+  description: string;
+  created: Date;
+  modified?: Date;
+  showCreated: boolean;
+  showModified: boolean;
+  dateFormat: string;
+  tags: string[];
+  headings: MarkdownHeading[];
+  slug: string;
+}
+
+const { title, description, created, modified, showCreated, showModified, dateFormat, tags, headings, slug } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="prose mx-auto">
+    <header class="mb-8 pb-6 border-b border-border">
+      <h1>{title}</h1>
+      <div class="flex flex-wrap items-center gap-4 text-muted text-sm">
+        {showCreated && (
+          <time datetime={created.toISOString()}>{formatDate(created, dateFormat)}</time>
+        )}
+        {showModified && modified && (
+          <span class="flex items-center gap-1">
+            <span>Updated:</span>
+            <time datetime={modified.toISOString()}>{formatDate(modified, dateFormat)}</time>
+          </span>
+        )}
+      </div>
+      {tags.length > 0 && (
+        <div class="mt-4">
+          <TagList tags={tags} />
+        </div>
+      )}
+    </header>
+
+    {headings.length > 0 && <TableOfContents headings={headings} />}
+
+    <div class="post-content">
+      <slot />
+    </div>
+
+    <footer class="mt-12 pt-8 border-t border-border">
+      <LocalGraph currentSlug={slug} />
+    </footer>
+  </article>
+</BaseLayout>

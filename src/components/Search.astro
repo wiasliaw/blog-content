@@ -1,0 +1,186 @@
+---
+// Pagefind search component
+---
+
+<div class="search-container">
+  <button id="search-btn" type="button" class="search-trigger" aria-label="Search">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </svg>
+    <span class="search-text">Search</span>
+    <kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+</div>
+
+<div id="search-modal" class="search-modal" aria-hidden="true">
+  <div class="search-backdrop"></div>
+  <div class="search-dialog" role="dialog" aria-modal="true" aria-label="Search">
+    <div id="pagefind-container"></div>
+  </div>
+</div>
+
+<style>
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .search-trigger:hover {
+    background: var(--color-background);
+    border-color: var(--color-primary);
+    color: var(--color-foreground);
+  }
+
+  .search-text {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .search-text {
+      display: inline;
+    }
+  }
+
+  .search-kbd {
+    display: none;
+    padding: 0.125rem 0.375rem;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 768px) {
+    .search-kbd {
+      display: inline;
+    }
+  }
+
+  .search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+  }
+
+  .search-modal[aria-hidden="false"] {
+    display: block;
+  }
+
+  .search-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .search-dialog {
+    position: relative;
+    max-width: 640px;
+    margin: 10vh auto 0;
+    padding: 1rem;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Pagefind UI overrides */
+  :global(.pagefind-ui) {
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: var(--color-primary);
+    --pagefind-ui-text: var(--color-foreground);
+    --pagefind-ui-background: var(--color-background);
+    --pagefind-ui-border: var(--color-border);
+    --pagefind-ui-tag: var(--color-secondary);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0.5rem;
+    --pagefind-ui-font: inherit;
+  }
+
+  :global(.pagefind-ui__search-input) {
+    font-size: 1rem !important;
+  }
+
+  :global(.pagefind-ui__result-link) {
+    color: var(--color-primary) !important;
+  }
+</style>
+
+<script>
+  import { PagefindUI } from '@pagefind/default-ui';
+
+  let pagefindUI: PagefindUI | null = null;
+
+  function initSearch() {
+    const modal = document.getElementById('search-modal');
+    const btn = document.getElementById('search-btn');
+    const backdrop = modal?.querySelector('.search-backdrop');
+    const container = document.getElementById('pagefind-container');
+
+    if (!modal || !btn || !container) return;
+
+    function openModal() {
+      modal!.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      
+      if (!pagefindUI) {
+        pagefindUI = new PagefindUI({
+          element: container,
+          showSubResults: true,
+          showImages: false,
+        });
+      }
+      
+      setTimeout(() => {
+        const input = container!.querySelector('input');
+        input?.focus();
+      }, 100);
+    }
+
+    function closeModal() {
+      modal!.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    btn.addEventListener('click', openModal);
+    backdrop?.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        if (modal.getAttribute('aria-hidden') === 'true') {
+          openModal();
+        } else {
+          closeModal();
+        }
+      }
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+        closeModal();
+      }
+    });
+  }
+
+  // Initialize on page load
+  initSearch();
+
+  // Re-initialize after view transitions
+  document.addEventListener('astro:after-swap', initSearch);
+</script>

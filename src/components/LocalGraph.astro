@@ -1,0 +1,189 @@
+---
+import { getLocalGraphData } from '../utils/graph';
+
+interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+const graphData = await getLocalGraphData(currentSlug);
+
+// Only render if there are connections
+const hasConnections = graphData.nodes.length > 1;
+---
+
+{hasConnections && (
+  <div class="mt-6">
+    <h3 class="mt-0 mb-4 text-lg">Related Notes</h3>
+    <div 
+      class="graph-container w-full h-[300px] bg-secondary border border-border rounded-lg overflow-hidden" 
+      id={`graph-${currentSlug}`}
+      data-nodes={JSON.stringify(graphData.nodes)}
+      data-links={JSON.stringify(graphData.links)}
+      data-current={currentSlug}
+    >
+    </div>
+  </div>
+)}
+
+<style>
+  .graph-container :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .graph-container :global(.node) {
+    cursor: pointer;
+  }
+
+  .graph-container :global(.node circle) {
+    transition: r 0.2s ease;
+  }
+
+  .graph-container :global(.node:hover circle) {
+    r: 10;
+  }
+
+  .graph-container :global(.node text) {
+    font-size: 11px;
+    fill: var(--color-graph-text);
+    pointer-events: none;
+  }
+
+  .graph-container :global(.link) {
+    stroke: var(--color-graph-link);
+    stroke-opacity: 0.6;
+  }
+</style>
+
+<script>
+  import * as d3 from 'd3';
+
+  interface GraphNode extends d3.SimulationNodeDatum {
+    id: string;
+    title: string;
+    tags: string[];
+  }
+
+  interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
+    source: string | GraphNode;
+    target: string | GraphNode;
+  }
+
+  function initGraph(container: HTMLElement) {
+    const nodesData: GraphNode[] = JSON.parse(container.dataset.nodes || '[]');
+    const linksData: GraphLink[] = JSON.parse(container.dataset.links || '[]');
+    const currentSlug = container.dataset.current || '';
+
+    if (nodesData.length === 0) return;
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    // Clear existing content
+    container.innerHTML = '';
+
+    const svg = d3.select(container)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', [0, 0, width, height]);
+
+    // Create simulation
+    const simulation = d3.forceSimulation<GraphNode>(nodesData)
+      .force('link', d3.forceLink<GraphNode, GraphLink>(linksData)
+        .id(d => d.id)
+        .distance(80))
+      .force('charge', d3.forceManyBody().strength(-200))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('collision', d3.forceCollide().radius(30));
+
+    // Create links
+    const link = svg.append('g')
+      .attr('class', 'links')
+      .selectAll('line')
+      .data(linksData)
+      .join('line')
+      .attr('class', 'link')
+      .attr('stroke-width', 1.5);
+
+    // Create nodes
+    const node = svg.append('g')
+      .attr('class', 'nodes')
+      .selectAll('g')
+      .data(nodesData)
+      .join('g')
+      .attr('class', 'node')
+      .call(d3.drag<SVGGElement, GraphNode>()
+        .on('start', dragstarted)
+        .on('drag', dragged)
+        .on('end', dragended) as any);
+
+    // Add circles to nodes
+    node.append('circle')
+      .attr('r', d => d.id === currentSlug ? 8 : 6)
+      .attr('fill', d => d.id === currentSlug 
+        ? 'var(--color-graph-node-current)' 
+        : 'var(--color-graph-node)');
+
+    // Add labels to nodes
+    node.append('text')
+      .text(d => d.title)
+      .attr('x', 12)
+      .attr('y', 4);
+
+    // Add click handler for navigation
+    node.on('click', (event, d) => {
+      if (d.id !== currentSlug) {
+        window.location.href = `/posts/${d.id}`;
+      }
+    });
+
+    // Add title for hover
+    node.append('title')
+      .text(d => d.title);
+
+    // Update positions on tick
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => (d.source as GraphNode).x || 0)
+        .attr('y1', d => (d.source as GraphNode).y || 0)
+        .attr('x2', d => (d.target as GraphNode).x || 0)
+        .attr('y2', d => (d.target as GraphNode).y || 0);
+
+      node.attr('transform', d => `translate(${d.x || 0},${d.y || 0})`);
+    });
+
+    function dragstarted(event: d3.D3DragEvent<SVGGElement, GraphNode, GraphNode>) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.subject.x;
+      event.subject.fy = event.subject.y;
+    }
+
+    function dragged(event: d3.D3DragEvent<SVGGElement, GraphNode, GraphNode>) {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    }
+
+    function dragended(event: d3.D3DragEvent<SVGGElement, GraphNode, GraphNode>) {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
+    }
+  }
+
+  // Initialize all graph containers on the page
+  function initAllGraphs() {
+    document.querySelectorAll('.graph-container').forEach((container) => {
+      if (container instanceof HTMLElement) {
+        initGraph(container);
+      }
+    });
+  }
+
+  // Run on initial load
+  initAllGraphs();
+
+  // Re-run after Astro page transitions
+  document.addEventListener('astro:after-swap', initAllGraphs);
+</script>
