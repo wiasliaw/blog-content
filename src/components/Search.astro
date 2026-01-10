@@ -3,7 +3,7 @@
 ---
 
 <div class="search-container">
-  <button id="search-btn" type="button" class="search-trigger" aria-label="Search">
+  <button type="button" class="search-trigger search-btn" aria-label="Search">
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"></circle>
       <path d="m21 21-4.3-4.3"></path>
@@ -217,12 +217,8 @@
     }
 
     function initSearch() {
-      const btn = document.getElementById('search-btn');
-      if (!btn) return;
-
-      // Prevent duplicate initialization
-      if (btn.dataset.initialized) return;
-      btn.dataset.initialized = 'true';
+      const buttons = document.querySelectorAll('.search-btn');
+      if (!buttons.length) return;
 
       // Create modal on first button interaction
       createModal();
@@ -263,7 +259,12 @@
         document.body.style.overflow = '';
       }
 
-      btn.addEventListener('click', openModal);
+      buttons.forEach(btn => {
+        if (btn.dataset.initialized) return;
+        btn.dataset.initialized = 'true';
+        btn.addEventListener('click', openModal);
+      });
+
       backdrop?.addEventListener('click', closeModal);
 
       dialogWrapper?.addEventListener('click', (e) => {
@@ -326,8 +327,9 @@
 
     // Re-initialize after view transitions
     document.addEventListener('astro:after-swap', () => {
-      const btn = document.getElementById('search-btn');
-      if (btn) btn.dataset.initialized = '';
+      document.querySelectorAll('.search-btn').forEach(btn => {
+        btn.dataset.initialized = '';
+      });
       // Modal persists in body, just reinit button
       initSearch();
     });
