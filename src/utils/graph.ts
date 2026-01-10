@@ -82,10 +82,10 @@ export async function buildGraphData(): Promise<GraphData> {
  */
 export async function getLocalGraphData(currentSlug: string): Promise<GraphData> {
   const { nodes, links } = await buildGraphData();
-  
+
   // Find connected node IDs
   const connectedIds = new Set<string>([currentSlug]);
-  
+
   for (const link of links) {
     if (link.source === currentSlug) {
       connectedIds.add(link.target);
@@ -94,15 +94,53 @@ export async function getLocalGraphData(currentSlug: string): Promise<GraphData>
       connectedIds.add(link.source);
     }
   }
-  
+
   // Filter nodes and links
   const localNodes = nodes.filter(n => connectedIds.has(n.id));
   const localLinks = links.filter(
     l => connectedIds.has(l.source) && connectedIds.has(l.target)
   );
-  
+
   return {
     nodes: localNodes,
     links: localLinks,
   };
+}
+
+/**
+ * Backlink information
+ */
+export interface BacklinkInfo {
+  id: string;
+  title: string;
+  description: string;
+}
+
+/**
+ * Get all backlinks (posts that link to the current post)
+ */
+export async function getBacklinks(targetSlug: string): Promise<BacklinkInfo[]> {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const { links } = await buildGraphData();
+
+  // Find all source posts that link to the target
+  const backlinkIds = links
+    .filter(link => link.target === targetSlug)
+    .map(link => link.source);
+
+  // Get post information for each backlink
+  const backlinks: BacklinkInfo[] = [];
+
+  for (const id of backlinkIds) {
+    const post = posts.find(p => p.id === id);
+    if (post) {
+      backlinks.push({
+        id: post.id,
+        title: post.data.title,
+        description: post.data.description,
+      });
+    }
+  }
+
+  return backlinks;
 }

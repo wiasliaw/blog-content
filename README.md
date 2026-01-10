@@ -1,26 +1,45 @@
 # SSG - Static Site Generator
 
-A static site generator built with Astro, featuring Digital Garden / Wiki-style functionality.
+A static site generator built with Astro 5.x, featuring Digital Garden / Wiki-style functionality with Neumorphism design.
 
 ## Features
 
+### Content
 - **Markdown Content** - Managed via Astro Content Collections
 - **Wiki Links** - Support `[[page-name]]` syntax for interlinking posts
-- **Dark/Light Theme** - Toggle theme with localStorage persistence
 - **Code Highlighting** - Shiki syntax highlighting with dual theme support
 - **LaTeX Math** - Render math equations via remark-math + rehype-katex
-- **Table of Contents** - Auto-generated TOC for articles
-- **Graph View** - D3.js visualization of post connections
-- **Tag System** - Auto-generated tag pages
-- **RSS Feed** - Auto-generated at `/rss.xml`
-- **Sitemap** - Auto-generated sitemap
-- **Search** - Full-site search powered by Pagefind
+- **Code Copy Button** - One-click copy for code blocks
+
+### Navigation
+- **Table of Contents** - Auto-generated TOC with active section highlight
+- **Graph View** - D3.js visualization of post connections (local & global)
+- **Backlinks** - See which posts link to the current page
+- **Tag System** - Tag overview page and individual tag pages
+- **Archive** - Posts organized by year and month
+- **Breadcrumb** - Navigation path with JSON-LD schema
+- **Search** - Full-site search powered by Pagefind (Ctrl/Cmd + K)
+
+### Design
+- **Neumorphism Style** - Soft UI design with shadow-based depth
+- **Dark/Light Theme** - Toggle theme with localStorage persistence
+- **Responsive Design** - Mobile-first with hamburger menu
+- **Floating Header** - Sticky header with backdrop blur
+- **Image Lightbox** - Click to enlarge images
+
+### SEO
+- **JSON-LD Schema** - Article and WebSite structured data
+- **Open Graph** - Social media meta tags
+- **RSS Feed** - Full content RSS at `/rss.xml`
+- **Sitemap** - Auto-generated with lastmod, changefreq, priority
 
 ## Tech Stack
 
 - **Framework**: Astro 5.x
 - **Package Manager**: pnpm
 - **Styling**: Tailwind CSS v4
+- **Search**: Pagefind
+- **Graph**: D3.js
 - **Deployment**: Cloudflare Pages (static output)
 
 ## Quick Start
@@ -32,7 +51,7 @@ pnpm install
 # Development mode
 pnpm dev
 
-# Build
+# Build (includes Pagefind indexing)
 pnpm build
 
 # Preview build
@@ -47,25 +66,32 @@ content/posts/                 # Markdown posts directory
 src/
 ├── content.config.ts          # Content Collections schema
 ├── styles/
-│   ├── theme.css              # CSS variables
-│   └── global.css             # Global styles
+│   ├── theme.css              # CSS variables, neumorphism shadows
+│   └── global.css             # Global styles, component classes
 ├── components/
-│   ├── Head.astro             # HTML head
+│   ├── Head.astro             # HTML head with JSON-LD
+│   ├── Search.astro           # Pagefind search modal
 │   ├── ThemeToggle.astro      # Theme toggle button
-│   ├── TableOfContents.astro  # TOC component
+│   ├── TableOfContents.astro  # TOC with active highlight
 │   ├── LocalGraph.astro       # Local graph view
+│   ├── Backlinks.astro        # Reverse links
+│   ├── Breadcrumb.astro       # Breadcrumb navigation
+│   ├── CodeCopyButton.astro   # Code copy button
+│   ├── Lightbox.astro         # Image lightbox
 │   ├── TagList.astro          # Tag list
-│   ├── PostCard.astro         # Post card
-│   └── Search.astro           # Search component
+│   └── PostCard.astro         # Post card
 ├── layouts/
-│   ├── BaseLayout.astro       # Base layout
+│   ├── BaseLayout.astro       # Base layout with header/footer
 │   └── PostLayout.astro       # Post layout
 ├── pages/
 │   ├── index.astro            # Home page
+│   ├── archive.astro          # Archive page
 │   ├── graph.astro            # Global graph page
 │   ├── rss.xml.ts             # RSS Feed
-│   ├── posts/[...slug].astro  # Post pages
-│   └── tags/[tag].astro       # Tag pages
+│   ├── posts/[slug].astro     # Post pages
+│   └── tags/
+│       ├── index.astro        # All tags page
+│       └── [tag].astro        # Tag pages
 └── utils/
     ├── graph.ts               # Graph data processing
     └── date.ts                # Date formatting utility
@@ -103,6 +129,13 @@ draft: false                   # Optional: draft mode (default: false)
 [[page-name|Display Text]] # Custom display text
 ```
 
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + K` | Open search |
+| `Escape` | Close search/lightbox |
+
 ## Deployment
 
 The project is configured for static output and can be deployed to any static hosting service:
@@ -113,6 +146,12 @@ The project is configured for static output and can be deployed to any static ho
 - GitHub Pages
 
 Built static files are located in the `dist/` directory.
+
+## Development Notes
+
+- **Pagefind**: Search index is generated during build. Run `pnpm build` before testing search.
+- **Draft Mode**: Posts with `draft: true` won't appear in lists, RSS, or sitemap.
+- **Images**: Place in `public/images/`, reference as `/images/filename.jpg`.
 
 ## License
 

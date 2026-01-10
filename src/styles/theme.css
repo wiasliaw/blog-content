@@ -84,9 +84,10 @@
   /* ===========================================
    * Colors - Light Theme (WCAG AA Compliant)
    * Body text contrast: >= 4.5:1
+   * Using slightly off-white for better Neumorphism effect
    * =========================================== */
-  --color-background: #ffffff;
-  --color-secondary: #f8fafc;
+  --color-background: #e8ecef;
+  --color-secondary: #dfe3e6;
   --color-foreground: #1a1a1a;       /* Contrast 16:1 on white */
   --color-muted: #525252;            /* Contrast 7:1 on white */
   --color-primary: #2563eb;          /* Contrast 4.5:1 on white */
@@ -109,14 +110,35 @@
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* ===========================================
+   * Neumorphism Shadows - Light Theme
+   * Enhanced for visibility on #e8ecef background
+   * =========================================== */
+  --neu-shadow-light:
+    8px 8px 16px rgba(163, 177, 198, 0.6),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  --neu-shadow-light-sm:
+    4px 4px 8px rgba(163, 177, 198, 0.5),
+    -4px -4px 8px rgba(255, 255, 255, 0.8);
+  --neu-shadow-light-inset:
+    inset 4px 4px 8px rgba(163, 177, 198, 0.5),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+  --neu-shadow-light-pressed:
+    inset 3px 3px 6px rgba(163, 177, 198, 0.6),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+  --neu-shadow-light-hover:
+    10px 10px 20px rgba(163, 177, 198, 0.5),
+    -10px -10px 20px rgba(255, 255, 255, 0.9);
 }
 
 /* ===========================================
  * Dark Theme (WCAG AA Compliant)
  * =========================================== */
 [data-theme="dark"] {
-  --color-background: #0a0a0a;
-  --color-secondary: #171717;
+  --color-background: #2d3436;
+  --color-secondary: #252829;
   --color-foreground: #fafafa;       /* Contrast 19:1 on #0a0a0a */
   --color-muted: #a3a3a3;            /* Contrast 7:1 on #0a0a0a */
   --color-primary: #60a5fa;          /* Contrast 5.5:1 on #0a0a0a */
@@ -134,4 +156,22 @@
   /* Blockquote */
   --color-blockquote-border: #60a5fa;
   --color-blockquote-bg: #171717;
+
+  /* Neumorphism Shadows - Dark Theme
+   * Enhanced for visibility on #2d3436 background */
+  --neu-shadow-light:
+    8px 8px 16px rgba(0, 0, 0, 0.4),
+    -8px -8px 16px rgba(70, 80, 82, 0.3);
+  --neu-shadow-light-sm:
+    4px 4px 8px rgba(0, 0, 0, 0.35),
+    -4px -4px 8px rgba(70, 80, 82, 0.25);
+  --neu-shadow-light-inset:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.4),
+    inset -4px -4px 8px rgba(70, 80, 82, 0.25);
+  --neu-shadow-light-pressed:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.45),
+    inset -3px -3px 6px rgba(70, 80, 82, 0.25);
+  --neu-shadow-light-hover:
+    10px 10px 20px rgba(0, 0, 0, 0.35),
+    -10px -10px 20px rgba(70, 80, 82, 0.35);
 }

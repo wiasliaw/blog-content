@@ -18,6 +18,28 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => !page.includes('/tags/'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+      serialize: (item) => {
+        // Posts get higher priority and monthly change frequency
+        if (item.url.includes('/posts/')) {
+          return {
+            ...item,
+            changefreq: 'monthly',
+            priority: 0.8,
+          };
+        }
+        // Homepage gets highest priority
+        if (item.url.endsWith('/') && !item.url.includes('/posts/') && !item.url.includes('/archive') && !item.url.includes('/graph')) {
+          return {
+            ...item,
+            changefreq: 'daily',
+            priority: 1.0,
+          };
+        }
+        return item;
+      },
     }),
   ],
 

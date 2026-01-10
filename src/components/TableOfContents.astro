@@ -32,17 +32,18 @@ for (const heading of filteredHeadings) {
 ---
 
 {toc.length > 0 && (
-  <nav class="bg-secondary border border-border rounded-lg p-4 mb-8">
+  <nav class="neu-card p-4 mb-8" data-toc>
     <details open>
       <summary class="font-semibold cursor-pointer select-none text-foreground py-1 hover:text-primary transition-colors">
         Table of Contents
       </summary>
-      <ul class="mt-4 mb-0 pl-4 list-none">
+      <ul class="toc-list mt-4 mb-0 pl-4 list-none">
         {toc.map((item) => (
           <li class="mb-1">
-            <a 
-              href={`#${item.heading.slug}`} 
-              class="text-muted text-sm no-underline block py-1 transition-colors hover:text-primary"
+            <a
+              href={`#${item.heading.slug}`}
+              class="toc-link text-muted text-sm no-underline block py-1 transition-colors hover:text-primary"
+              data-toc-link
             >
               {item.heading.text}
             </a>
@@ -50,9 +51,10 @@ for (const heading of filteredHeadings) {
               <ul class="pl-4 mt-1 mb-0 list-none">
                 {item.children.map((child) => (
                   <li class="mb-1">
-                    <a 
-                      href={`#${child.heading.slug}`} 
-                      class="text-muted text-xs no-underline block py-1 transition-colors hover:text-primary"
+                    <a
+                      href={`#${child.heading.slug}`}
+                      class="toc-link text-muted text-xs no-underline block py-1 transition-colors hover:text-primary"
+                      data-toc-link
                     >
                       {child.heading.text}
                     </a>
@@ -66,3 +68,63 @@ for (const heading of filteredHeadings) {
     </details>
   </nav>
 )}
+
+<style>
+  .toc-link.toc-active {
+    color: var(--color-primary);
+    font-weight: 600;
+    border-left: 2px solid var(--color-primary);
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
+  }
+</style>
+
+<script>
+  function initTocHighlight() {
+    const tocNav = document.querySelector('nav[data-toc]');
+    if (!tocNav) return;
+
+    const tocLinks = tocNav.querySelectorAll('[data-toc-link]');
+    const headings = document.querySelectorAll('.post-content h2, .post-content h3');
+
+    if (headings.length === 0 || tocLinks.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+
+            // Remove active class from all links
+            tocLinks.forEach((link) => {
+              link.classList.remove('toc-active');
+            });
+
+            // Add active class to the matching link
+            const activeLink = tocNav.querySelector(`a[href="#${id}"]`);
+            if (activeLink) {
+              activeLink.classList.add('toc-active');
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '-80px 0px -60% 0px',
+        threshold: 0
+      }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+
+    // Cleanup on page transition
+    document.addEventListener('astro:before-swap', () => {
+      observer.disconnect();
+    }, { once: true });
+  }
+
+  // Initialize on page load
+  initTocHighlight();
+
+  // Re-initialize after Astro page transitions
+  document.addEventListener('astro:after-swap', initTocHighlight);
+</script>
