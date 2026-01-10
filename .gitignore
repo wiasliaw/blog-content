@@ -1,5 +1,8 @@
 # build output
 dist/
+
+# generated theme CSS
+src/styles/themes/generated.css
 # generated types
 .astro/
 
