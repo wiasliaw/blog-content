@@ -30,9 +30,21 @@ content/posts/             # Markdown posts (root level)
 
 src/
 ├── content.config.ts      # Content Collections schema definition
+├── config/
+│   └── theme.config.ts    # Theme selection (default, nord, tokyo-night, catppuccin, github)
 ├── styles/
-│   ├── theme.css          # CSS variables (colors, fonts, sizes, neumorphism shadows)
-│   └── global.css         # Global styles, prose styles, neumorphism components
+│   ├── theme.css          # Generated CSS variables (do not edit directly)
+│   ├── global.css         # Global styles, prose styles, neumorphism components
+│   └── themes/            # Theme definitions
+│       ├── types.ts       # Theme type definitions
+│       ├── index.ts       # Theme exports
+│       ├── default.ts     # Default theme
+│       ├── nord.ts        # Nord theme
+│       ├── tokyo-night.ts # Tokyo Night theme
+│       ├── catppuccin.ts  # Catppuccin theme
+│       └── github.ts      # GitHub theme
+├── scripts/
+│   └── generate-theme.ts  # CSS generation script (runs at build time)
 ├── components/
 │   ├── Head.astro         # HTML head with meta tags, JSON-LD schema
 │   ├── Search.astro       # Pagefind search with modal
@@ -133,14 +145,31 @@ Post frontmatter fields:
 - `tags`: String array
 - `draft`: Boolean, draft mode
 
-## Theme System (`src/styles/theme.css`)
+## Theme System
 
-Colors defined via CSS variables:
-- `--color-background`, `--color-foreground`
-- `--color-primary`, `--color-secondary`
-- `--color-muted`, `--color-border`
+### Theme Presets
 
-Dark mode toggled via `data-theme="dark"` on `<html>`.
+Available themes in `src/config/theme.config.ts`:
+- `default` - Neutral gray palette
+- `nord` - Arctic, bluish palette
+- `tokyo-night` - Dark Tokyo cityscape colors
+- `catppuccin` - Soothing pastel palette
+- `github` - GitHub-inspired colors
+
+### How It Works
+
+1. Theme is selected in `src/config/theme.config.ts`
+2. `pnpm build` runs `generate-theme.ts` which generates `src/styles/theme.css`
+3. Each theme includes paired Shiki syntax highlighting themes (light/dark)
+4. Dark mode toggled via `data-theme="dark"` on `<html>`
+
+### CSS Variables
+
+Generated CSS variables include:
+- `--color-background`, `--color-foreground`, `--color-primary`, `--color-secondary`
+- `--color-muted`, `--color-border`, `--color-code-*`
+- `--color-heading-h1/h2/h3` - Heading color gradient
+- `--neu-shadow-*` - Neumorphism shadow values
 
 ## Adding New Posts
 
@@ -206,3 +235,4 @@ Link to another post: [[other-post-slug]]
 - [x] Responsive design with mobile menu
 - [x] Search modal integration
 - [x] Floating header design
+- [x] Build-time theme preset system (multiple themes)
