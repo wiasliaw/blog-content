@@ -8,6 +8,10 @@ import sitemap from '@astrojs/sitemap';
 
 import tailwindcss from '@tailwindcss/vite';
 
+// Theme configuration
+import { themeConfig } from './src/config/theme.config';
+import { themes } from './src/styles/themes';
+
 // https://astro.build/config
 export default defineConfig({
   // Change this to your actual site URL
@@ -58,10 +62,7 @@ export default defineConfig({
       rehypeSlug,
     ],
     shikiConfig: {
-      themes: {
-        light: 'github-light',
-        dark: 'github-dark',
-      },
+      themes: themes[themeConfig.theme].shiki,
     },
   },
 

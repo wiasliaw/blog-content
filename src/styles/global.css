@@ -292,15 +292,12 @@
     border-top-left-radius: 0;
   }
 
-  /* Shiki dual theme support */
-  html:not([data-theme="dark"]) .shiki,
-  html:not([data-theme="dark"]) .shiki span {
-    color: var(--shiki-light) !important;
-    background-color: var(--shiki-light-bg) !important;
-  }
-
-  html[data-theme="dark"] .shiki,
-  html[data-theme="dark"] .shiki span {
+  /* Shiki dual theme support
+   * Shiki outputs light theme colors inline (default) and dark theme as CSS variables.
+   * We override with CSS variables in dark mode.
+   * Ref: https://shiki.style/guide/dual-themes */
+  html[data-theme="dark"] .astro-code,
+  html[data-theme="dark"] .astro-code span {
     color: var(--shiki-dark) !important;
     background-color: var(--shiki-dark-bg) !important;
   }

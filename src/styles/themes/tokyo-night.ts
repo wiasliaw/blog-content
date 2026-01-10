@@ -5,7 +5,8 @@ import type { Theme } from "./types";
 export const tokyoNight: Theme = {
   name: "tokyo-night",
   shiki: {
-    light: "tokyo-night-light",
+    // Note: tokyo-night-light theme not exist
+    light: "tokyo-night",
     dark: "tokyo-night",
   },
   light: {
