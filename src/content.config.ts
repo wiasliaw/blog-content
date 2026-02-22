@@ -1,5 +1,8 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { loadConfig } from './lib/config';
+
+const config = await loadConfig();
 
 /**
  * Frontmatter Schema
@@ -10,31 +13,50 @@ import { glob } from 'astro/loaders';
  * - created: date - Creation date
  * 
  * Optional fields:
- * - modified: date - Last modification date
+ * - modified (or custom name via config): date - Last modification date
  * - showCreated: boolean - Whether to display created date (default: true)
  * - showModified: boolean - Whether to display modified date (default: true)
  * - dateFormat: string - Date format pattern (default: 'YYYY-MM-DD')
- *   Supported patterns: YYYY, MM, DD, M, D
- *   Examples: 'YYYY-MM-DD', 'YYYY/MM/DD', 'MM-DD-YYYY', 'YYYY年MM月DD日'
  * - tags: string[] - Category tags
  * - draft: boolean - Hide from production
  */
+
+// Build description field based on config
+const descriptionField = config.schema.optionalDescription
+  ? z.string().nullish().transform((v) => v ?? '')
+  : z.string();
+
+// Build tags field based on config
+const tagsField = config.schema.optionalTags
+  ? z.array(z.string()).nullish().transform((v) => v ?? [])
+  : z.array(z.string()).default([]);
+
+// Build the base schema
+const baseFields: Record<string, z.ZodTypeAny> = {
+  title: z.string(),
+  description: descriptionField,
+  created: z.coerce.date(),
+  [config.schema.dateModifiedField]: z.coerce.date().optional(),
+  showCreated: z.boolean().default(true),
+  showModified: z.boolean().default(true),
+  dateFormat: z.string().default('YYYY-MM-DD'),
+  tags: tagsField,
+  draft: z.boolean().default(false),
+};
+
+// Merge extra fields from config
+if (config.schema.extraFields) {
+  Object.assign(baseFields, config.schema.extraFields(z));
+}
+
 const posts = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './content/posts' }),
-  schema: z.object({
-    // Required fields
-    title: z.string(),
-    description: z.string(),
-    created: z.coerce.date(),
-    
-    // Optional fields
-    modified: z.coerce.date().optional(),
-    showCreated: z.boolean().default(true),
-    showModified: z.boolean().default(true),
-    dateFormat: z.string().default('YYYY-MM-DD'),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
+  loader: glob({
+    pattern: config.content.patterns.length === 1
+      ? config.content.patterns[0]
+      : `{${config.content.patterns.join(',')}}`,
+    base: config.content.base,
   }),
+  schema: z.object(baseFields),
 });
 
 export const collections = { posts };

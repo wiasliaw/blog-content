@@ -12,6 +12,27 @@ import tailwindcss from '@tailwindcss/vite';
 import { themeConfig } from './src/config/theme.config';
 import { themes } from './src/styles/themes';
 
+// SSG configuration
+import { loadConfig } from './src/lib/config';
+
+const ssgConfig = await loadConfig();
+
+// Resolve user-defined remark plugins
+const userRemarkPlugins = await Promise.all(
+  ssgConfig.remarkPlugins.map(async (plugin) => {
+    if (typeof plugin === 'string') {
+      const mod = await import(plugin);
+      return mod.default ?? mod[Object.keys(mod)[0]];
+    }
+    if (Array.isArray(plugin) && typeof plugin[0] === 'string') {
+      const mod = await import(plugin[0]);
+      const fn = mod.default ?? mod[Object.keys(mod)[0]];
+      return [fn, plugin[1]];
+    }
+    return plugin;
+  })
+);
+
 // https://astro.build/config
 export default defineConfig({
   // Change this to your actual site URL
@@ -56,6 +77,7 @@ export default defineConfig({
         aliasDivider: '|',
       }],
       remarkMath,
+      ...userRemarkPlugins,
     ],
     rehypePlugins: [
       rehypeKatex,

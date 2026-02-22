@@ -1,3 +1,6 @@
+# user config (keep out of upstream)
+ssg.config.ts
+
 # build output
 dist/
 
@@ -22,6 +25,10 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Obsidian
+.obsidian
+.trash
 
 # jetbrains setting folder
 .idea/
