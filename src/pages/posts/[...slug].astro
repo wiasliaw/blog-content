@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
+import { loadConfig } from '../../lib/config';
+
+const config = await loadConfig();
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
@@ -12,13 +15,14 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
+const modifiedDate = post.data[config.schema.dateModifiedField] as Date | undefined;
 ---
 
 <PostLayout
   title={post.data.title}
   description={post.data.description}
   created={post.data.created}
-  modified={post.data.modified}
+  modified={modifiedDate}
   showCreated={post.data.showCreated}
   showModified={post.data.showModified}
   dateFormat={post.data.dateFormat}
