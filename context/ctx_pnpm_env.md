@@ -1,14 +1,13 @@
 ---
 title: "[context] pnpm env"
-description: 
-permalink: 
+description: "[context] pnpm env"
 tags:
   - context
   - pnpm
   - nodejs
 draft: false
-created: 2024-12-08, 22:59
-updated: 2024-12-08, 23:14
+created: 2024-12-08
+modified: 2024-12-08
 ---
 ## `pnpm env`
 

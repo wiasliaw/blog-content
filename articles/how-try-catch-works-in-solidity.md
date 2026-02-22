@@ -1,10 +1,11 @@
 ---
 title: How `try-catch` works in solidity
-created: 2024-12-07, 14:34
-updated: 2024-12-07, 14:39
+description: 深入探討 Solidity 中 try-catch 的運作機制與 EVM 錯誤處理
+created: 2024-12-07
+modified: 2024-12-07
 tags:
   - solidity
-  - published/medium
+  - published-medium
 ---
 `try-catch` 是一般 programming language 常見的錯誤處理機制，可以用來捕捉錯誤並進行處理，但是在 evm 這個設計之下出現了一些怪異的行為。要知道 `try-catch` 如何運作，首先需要知道錯誤如何傳遞出來。
 

@@ -1,0 +1,30 @@
+---
+import TagList from './TagList.astro';
+import { formatDate } from '../utils/date';
+
+interface Props {
+  title: string;
+  description?: string;
+  created: Date;
+  showCreated: boolean;
+  dateFormat: string;
+  tags: string[];
+  slug: string;
+}
+
+const { title, description, created, showCreated, dateFormat, tags, slug } = Astro.props;
+const href = `/posts/${slug}`;
+---
+
+<article class="neu-card p-4 sm:p-6 transition-all">
+  <a href={href} class="no-underline group">
+    <h3 class="m-0 mb-2 text-lg sm:text-xl font-semibold text-foreground transition-colors group-hover:text-primary">{title}</h3>
+  </a>
+  {showCreated && (
+    <div class="text-xs sm:text-sm text-muted mb-2">
+      <time datetime={created.toISOString()}>{formatDate(created, dateFormat)}</time>
+    </div>
+  )}
+  {description && <p class="text-muted mb-4 leading-relaxed m-0 text-sm sm:text-base">{description}</p>}
+  {tags.length > 0 && <TagList tags={tags} />}
+</article>

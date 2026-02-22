@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+// Get all non-draft posts, sorted by date (newest first)
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.created.valueOf() - a.data.created.valueOf());
+---
+
+<BaseLayout title="Home" description="A static site built with Astro">
+  <div class="prose mx-auto">
+    <section class="text-center mb-8 sm:mb-12 py-8 sm:py-12">
+      <h1>Welcome</h1>
+      <p class="text-muted text-base sm:text-lg">A minimal static site generator with wiki-style linking and graph visualization.</p>
+    </section>
+
+    <section>
+      <h2>Recent Posts</h2>
+      {sortedPosts.length > 0 ? (
+        <div class="flex flex-col gap-6 not-prose">
+          {sortedPosts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              created={post.data.created}
+              showCreated={post.data.showCreated}
+              dateFormat={post.data.dateFormat}
+              tags={post.data.tags}
+              slug={post.id}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-muted p-12 bg-secondary rounded-lg">
+          No posts yet. Add markdown files to <code>src/content/posts/</code>
+        </p>
+      )}
+    </section>
+  </div>
+</BaseLayout>

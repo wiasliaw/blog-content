@@ -1,13 +1,12 @@
 ---
 title: "[context] nix installation"
-description: 
-permalink: 
+description: "[context] nix installation"
 tags:
   - context
   - nix
 draft: false
-created: 2024-12-08, 22:49
-updated: 2024-12-08, 23:18
+created: 2024-12-08
+modified: 2024-12-08
 ---
 ## Installation for macOS
 

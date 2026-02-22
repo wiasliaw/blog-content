@@ -1,12 +1,11 @@
 ---
 title: "[context] 分散式金融系統的設計模式 COSCUP"
-description: 
-permalink: 
+description: "[context] 分散式金融系統的設計模式 COSCUP"
 tags:
   - defi
 draft: false
-created: 2024-12-31, 15:53
-updated: 2025-04-14, 15:49
+created: 2024-12-31
+modified: 2025-04-14
 ---
 ## Author - Ping Chen
 

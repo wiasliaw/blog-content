@@ -1,9 +1,8 @@
 ---
-created: 2025-01-12, 17:48
-updated: 2025-04-14, 15:27
+created: 2025-01-12
+modified: 2025-04-14
 title: Note of ERC-4626
 description: 簡介 ERC-4626
-permalink: 
 tags:
   - eip
 draft: false
