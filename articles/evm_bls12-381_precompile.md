@@ -1,13 +1,14 @@
 ---
 title: evm BLS12-381 precompile
 description: 簡介 ERC-2537
+permalink: 
 tags:
   - eip
-  - evm-precompiled
+  - evm/precompiled
   - cryptography
 draft: false
-created: 2025-04-19
-modified: 2025-04-22
+created: 2025-04-19, 01:48
+updated: 2025-04-22, 23:56
 ---
 [EIP-2537](https://eips.ethereum.org/EIPS/eip-2537)，BLS12-381 橢圓曲線相關的基本功能會以 precompile contracts 的方式在 Pectra 上線，主要為了支援 BLS 數位簽名的驗證。
 

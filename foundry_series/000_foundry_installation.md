@@ -1,11 +1,12 @@
 ---
 title: foundry installation
 description: foundry installation
+permalink: 
 tags:
   - foundry
 draft: false
-created: 2025-05-19
-modified: 2025-05-21
+created: 2025-05-19, 19:48
+updated: 2025-05-21, 02:50
 ---
 ## Using Foundryup
 

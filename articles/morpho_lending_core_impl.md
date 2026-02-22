@@ -1,12 +1,13 @@
 ---
 title: Morpho-Blue 借貸計息實作
 description: Morpho 是一個現代化的借貸協議，本文主要簡介 Morpho 核心中有關借貸計息的實作
+permalink: 
 tags:
-  - defi-lending
-  - protocol-morpho
+  - defi/lending
+  - protocol/morpho
 draft: false
-created: 2024-12-09
-modified: 2025-03-30
+created: 2024-12-09, 00:06
+updated: 2025-03-30, 18:56
 ---
 Morpho 是一個現代化的借貸協議，本文主要簡介 Morpho 核心中有關借貸計息的實作。
 

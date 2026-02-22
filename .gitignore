@@ -2,9 +2,3 @@
 .obsidian
 .trash
 node_modules/
-
-# SSG build artifacts
-dist/
-.astro/
-node_modules/
-src/styles/themes/generated.css

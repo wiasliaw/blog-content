@@ -1,12 +1,13 @@
 ---
 title: "[context] nix uninstallation"
-description: "[context] nix uninstallation"
+description: 
+permalink: 
 tags:
   - context
   - nix
 draft: false
-created: 2024-12-08
-modified: 2024-12-08
+created: 2024-12-08, 22:52
+updated: 2024-12-08, 23:18
 ---
 ## Uninstallation for macOS
 

@@ -1,11 +1,12 @@
 ---
 title: BLS Signature
 description: 簡介 BLS Signature
+permalink: 
 tags:
   - cryptography
 draft: false
-created: 2025-04-29
-modified: 2025-04-29
+created: 2025-04-29, 04:48
+updated: 2025-04-29, 15:07
 ---
 有了 [[evm_bls12-381_precompile|bls12-381]] 的 precompile 的支援，就可以實作 BLS Signature。
 
@@ -13,7 +14,7 @@ modified: 2025-04-29
 
 BLS Signature 對於訊息雜湊有作略微的修改，將訊息的雜湊值直接對應到橢圓曲線上，以下借用 reference^[https://medium.com/cryptoadvance/bls-signatures-better-than-schnorr-5a7fe30ea716] 的圖示：
 
-![](/assets/2025_0429_0509.png)
+![[2025_0429_0509.png]]
 
 最簡單的方法是像往常一樣對訊息進行雜湊處理 (在 evm 以 keccak256 最為方便)，並將結果視為點的 X 座標，代入橢圓曲線計算是否有對應的 Y 座標。由於並不是每個 X 都找得到 Y 座標出來，所以會在雜湊附加上額外的訊息，例如 counter 之類的計數器，找不到則增加 counter 再計算一次，直到找到為止。
 
