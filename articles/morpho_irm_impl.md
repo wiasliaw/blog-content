@@ -1,12 +1,13 @@
 ---
 title: Morpho-Blue 利率模型實作
 description: Morpho 是一個現代化的借貸協議，本文主要簡介 Morpho 核心中有關 Interest Rate Model 實作
+permalink: 
 tags:
-  - defi-lending
-  - protocol-morpho
+  - defi/lending
+  - protocol/morpho
 draft: false
-created: 2025-01-21
-modified: 2025-03-30
+created: 2025-01-21, 16:14
+updated: 2025-03-30, 18:59
 ---
 本文主要在解釋 Morpho Interest Rate Model 實作，不做數學推導。
 
@@ -136,7 +137,7 @@ function _newRateAtTarget(
 
 看一下 $y = e^x$ 的座標圖，其 range 為 `(0, infinity)`，將新的利率乘以 `e^x` 作用相當於放大或是縮小利率。當利用率小於目標利用率，Err Factor 和 Linear Adaptation 都會是負值，進而將利率縮小；反之則放大：
 
-![](/assets/2025_0121_1820.png)
+![[2025_0121_1820.png]]
 
 ### curve
 

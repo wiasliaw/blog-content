@@ -1,13 +1,14 @@
 ---
 title: "[context] chainlink vrf v2 integration"
 description: chainlink vrf v2 snippet
+permalink: 
 tags:
   - context
-  - defi-oracle
-  - protocol-chainlink
+  - defi/oracle
+  - protocol/chainlink
 draft: false
-created: 2025-05-11
-modified: 2025-05-11
+created: 2025-05-11, 03:48
+updated: 2025-05-11, 04:18
 ---
 ## dependencies
 

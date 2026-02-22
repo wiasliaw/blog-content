@@ -1,12 +1,13 @@
 ---
 title: "[context] enable formal verification in foundry"
-description: "[context] enable formal verification in foundry"
+description: 
+permalink: 
 tags:
   - context
   - foundry
 draft: false
-created: 2024-12-08
-modified: 2024-12-08
+created: 2024-12-08, 22:17
+updated: 2024-12-08, 22:21
 ---
 Solidity compiler 內建一些 formal verification 的設定 (參考文件為 v0.8.25)，簡介如下：
 

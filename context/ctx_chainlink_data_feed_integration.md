@@ -1,13 +1,14 @@
 ---
 title: "[context] chainlink data feed integration"
-description: "[context] chainlink data feed integration"
+description: 
+permalink: 
 tags:
   - context
-  - defi-oracle
-  - protocol-chainlink
+  - defi/oracle
+  - protocol/chainlink
 draft: false
-created: 2025-01-11
-modified: 2025-01-12
+created: 2025-01-11, 20:25
+updated: 2025-01-12, 19:36
 ---
 ## chainlink interface
 

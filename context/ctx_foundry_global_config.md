@@ -1,12 +1,13 @@
 ---
 title: "[context] foundry global config"
-description: "[context] foundry global config"
+description: 
+permalink: 
 tags:
   - context
   - foundry
 draft: false
-created: 2024-12-08
-modified: 2024-12-08
+created: 2024-12-08, 22:03
+updated: 2024-12-08, 22:47
 ---
 Foundry 的設定檔分為 project level 和 global level，可以將一些設定放到 global config 裡面，以避免重複設定
 
