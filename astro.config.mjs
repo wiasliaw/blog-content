@@ -21,11 +21,11 @@ const ssgConfig = await loadConfig();
 const userRemarkPlugins = await Promise.all(
   ssgConfig.remarkPlugins.map(async (plugin) => {
     if (typeof plugin === 'string') {
-      const mod = await import(plugin);
+      const mod = await import(/* @vite-ignore */ plugin);
       return mod.default ?? mod[Object.keys(mod)[0]];
     }
     if (Array.isArray(plugin) && typeof plugin[0] === 'string') {
-      const mod = await import(plugin[0]);
+      const mod = await import(/* @vite-ignore */ plugin[0]);
       const fn = mod.default ?? mod[Object.keys(mod)[0]];
       return [fn, plugin[1]];
     }
