@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: string | ImageMetadata;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  quality?: number;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  class: className,
+  loading = 'lazy',
+  quality = 80
+} = Astro.props;
+
+// Check if src is an imported image (ImageMetadata) or external URL
+const isImportedImage = typeof src !== 'string';
+---
+
+{isImportedImage ? (
+  <Image
+    src={src}
+    alt={alt}
+    width={width || (src as ImageMetadata).width}
+    height={height || (src as ImageMetadata).height}
+    loading={loading}
+    decoding="async"
+    class={className}
+    format="webp"
+    quality={quality}
+  />
+) : (
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding="async"
+    class={className}
+  />
+)}

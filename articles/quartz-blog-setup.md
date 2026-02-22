@@ -1,13 +1,12 @@
 ---
 title: Quartz Blog Setup
-description: 
-permalink: 
+description: "Quartz Blog Setup"
 tags:
   - quartz
   - obsidian
 draft: false
-created: 2024-12-07, 19:59
-updated: 2025-03-04, 21:43
+created: 2024-12-07
+modified: 2025-03-04
 ---
 以 [Quartz](https://quartz.jzhao.xyz/) 建立和維護 Blog
 
@@ -17,7 +16,7 @@ updated: 2025-03-04, 21:43
 
 初始化的過程十分簡單，可以在 GitHub 建立 repo 時直接使用 quartz 的 template：
 
-![[2025_0304_2054.png]]
+![](/assets/2025_0304_2054.png)
 
 將 repo clone 下來後，文章內容放在 `/content` folder 裡面，安裝 nodejs 需要的 dependencies 即可：
 

@@ -1,14 +1,13 @@
 ---
 title: "[context] pnpm installation"
-description: 
-permalink: 
+description: "[context] pnpm installation"
 tags:
   - context
   - pnpm
   - nodejs
 draft: false
-created: 2024-12-08, 23:08
-updated: 2024-12-08, 23:16
+created: 2024-12-08
+modified: 2024-12-08
 ---
 ## Installation
 

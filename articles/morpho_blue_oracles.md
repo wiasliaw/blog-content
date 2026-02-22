@@ -1,13 +1,12 @@
 ---
 title: Morpho-Blue 預言機實作
 description: 本文主要簡介 Morpho 核心中有關 Oracles 的實作
-permalink: 
 tags:
-  - defi/oracle
-  - protocol/morpho
+  - defi-oracle
+  - protocol-morpho
 draft: false
-created: 2025-01-12, 01:16
-updated: 2025-04-14, 15:27
+created: 2025-01-12
+modified: 2025-04-14
 ---
 本文主旨在拆解 morpho-blue 的預言機實作，支援 ERC4626 share token 的報價並整合 chainlink oracle，實作只有一個 constructor 和一個 view function，看似簡單但是其有些複雜的地方。
 
